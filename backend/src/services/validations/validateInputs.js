@@ -1,4 +1,4 @@
-const idSchema = require('./schema');
+const { idSchema } = require('./schema');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -7,4 +7,8 @@ const validateId = (id) => {
 
   return { type: null, message: '' };
 };
-module.exports = validateId;
+
+module.exports = {
+  validateId,
+
+};
