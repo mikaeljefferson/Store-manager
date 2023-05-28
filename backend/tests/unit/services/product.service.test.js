@@ -2,31 +2,31 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models');
-const { Products } = require('./Mock/product.service.mock');
+const { products } = require('./Mock/product.service.mock');
 
-describe('Testes da camada  controller product', function () {
-  describe('Listagem de todos os produtos', function () {
-    it('Retorna todos produtos ', async function () {
-      sinon.stub(productModel, 'findAll').resolves(Products);
+describe('Testa a camada service de produto', function () {
+  describe('Lista todos os peodutos', function () {
+    it('Retorna a lista de produtos', async function () {
+      sinon.stub(productModel, 'findAll').resolves(products);
 
-      const result = await productService.getAll();
+      const result = await productService.findAll();
 
       expect(result.type).to.be.equal(null);
-      expect(result.message).to.deep.equal(Products);
+      expect(result.message).to.deep.equal(products);
     });
   });
 
-  describe('Listagem de um único produto', function () {
-    it('Retorna um único produto caso o ID exista', async function () {
-      sinon.stub(productModel, 'findById').resolves(Products[0]);
+  describe('Lista  um unico produto', function () {
+    it('Retorna um erro caso o produto não exista', async function () {
+      sinon.stub(productModel, 'findById').resolves(undefined);
 
-      const result = await productService.getById(1);
+      const result = await productService.findById(999);
+      expect(result.type).to.be.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.deep.equal('Product not found');
+    });
+  });
 
-      expect(result.type).to.be.equal(null);
-      expect(result.message).to.deep.equal(Products[0]);
-    });
-    afterEach(function () {
-        sinon.restore();
-      });
-    });
-    });
+  afterEach(function () {
+    sinon.restore();
+  });
+});
