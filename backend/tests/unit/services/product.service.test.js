@@ -25,7 +25,7 @@ describe('Testa a camada service de produto', function () {
       expect(result.message).to.deep.equal('Product not found');
     });
   });
-
+  
   afterEach(function () {
     sinon.restore();
   });

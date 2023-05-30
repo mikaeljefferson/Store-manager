@@ -1,3 +1,5 @@
+const validateProduct = 'ProdutoX';
+
 const products = [
     {
       id: 1,
@@ -12,6 +14,11 @@ const products = [
       name: 'Escudo do Capitão América',
     },
   ];
+  const newProduct = {
+    id: 4,
+    name: validateProduct,
+  };
   module.export = {
 products,
+newProduct,
   };
