@@ -21,6 +21,7 @@ describe('Testes da camada sale model', function () {
 
     expect(result).to.deep.equal(saleById);
   });
+  
   afterEach(function () {
     sinon.restore();
   });

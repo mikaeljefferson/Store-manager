@@ -30,6 +30,7 @@ const sales = [
       quantity: 2,
     },
   ];
+  
   module.exports = {
     sales,
     saleById,
