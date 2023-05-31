@@ -66,7 +66,9 @@ describe('Testes da camada  controller sale', function () {
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-      sinon.stub(saleService, 'findById').resolves({ type: SALE_NOT_FOUND, message: 'Sale not found' });
+      sinon.stub(saleService, 'findById').resolves({ type: SALE_NOT_FOUND,
+         message: 'Sale not found',
+        });
 
       await saleController.findById(req, res);
 
