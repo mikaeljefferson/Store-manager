@@ -7,6 +7,9 @@ const { products, newProduct } = require('./Mock/product.contoller.mock');
 
 const INVALID_VALUE = 'INVALID_VALUE';
 const msg = '"name" length must be at least 5 characters long';
+const msg2 = '"id" must be a number';
+const m = 'Product not found';
+const PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND';
 const { expect } = chai;
 chai.use(sinonChai);
 
@@ -65,6 +68,61 @@ describe('Testa a camada controller', function () {
 
       expect(res.status).to.have.been.calledWith(422);
       expect(res.json).to.have.been.calledWith({ message: msg });
+    });
+  });
+  describe('Deletando um produto', function () {
+    it('Deve retornar o status 204 ao deletar o produto com sucesso', async function () {
+      const req = {
+        params: {
+          id: 1,
+        },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteproduct').resolves({ type: null, message: '' });
+
+      await productController.deleteproduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.have.been.calledWith('');
+    });
+
+    it('Deve retornar um erro caso o ID seja inválido', async function () {
+      const req = {
+        params: {
+          id: 'a',
+        },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteproduct').resolves({ type: INVALID_VALUE, message: msg2 });
+
+      await productController.deleteproduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"id" must be a number' });
+    });
+
+    it('Deve retornar um erro caso o ID não exista', async function () {
+      const req = {
+        params: {
+          id: 999,
+        },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteproduct').resolves({ type: PRODUCT_NOT_FOUND, message: m });
+
+      await productController.deleteproduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     });
   });
 
