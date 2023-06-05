@@ -1,7 +1,8 @@
+const { findById } = require('../../models');
 const {
   idSchema,
   newProductSchema,
-  newSaleProductSchema,
+
 } = require('./schema');
 
 const validateId = (id) => {
@@ -19,20 +20,19 @@ const validateNewProduct = (name) => {
   return { type: null, message: '' };
 };
 
-const validateNewSaleProduct = (sale) => {
-  const { error } = newSaleProductSchema.validate(sale);
-
-  if (error) {
-    if (error.message.includes('required')) return { type: 'BAD_REQUEST', message: error.message };
-
-    if (error.message.includes('greater')) return { type: 'INVALID_VALUE', message: error.message };
+const validateSales = async (sales) => {
+  const searchId = await sales.map(({ productId }) => findById(productId));
+  const promisse = await Promise.all(searchId);
+  const result = promisse.every((product) => product);
+  if (!result) {
+    return { type: 404, message: 'Product not found' };
   }
+  return null;
+     };
 
-  return { type: null, message: '' };
-};
 module.exports = {
   validateId,
   validateNewProduct,
-  validateNewSaleProduct,
+  validateSales,
   
 };

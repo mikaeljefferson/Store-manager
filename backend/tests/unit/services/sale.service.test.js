@@ -4,6 +4,7 @@ const { saleService } = require('../../../src/services');
 const { saleModel } = require('../../../src/models');
 const { sales, saleById, newSale } = require('./Mock/sale.service.mock');
 
+const INVALID_VALUE = 'INVALID_VALUE';
 describe('Testes da camada service sale', function () {
   describe('Lista  todas as vendas', function () {
     it('Retorna a lista de vendas', async function () {
@@ -25,7 +26,12 @@ describe('Testes da camada service sale', function () {
       expect(result.type).to.be.equal(null);
       expect(result.message).to.deep.equal(saleById);
     });
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const result = await saleService.findById('a');
 
+      expect(result.type).to.be.equal(INVALID_VALUE);
+      expect(result.message).to.deep.equal('"id" must be a number');
+    });
     it('Retorna um erro caso a venda não exista', async function () {
       sinon.stub(saleModel, 'findById').resolves([]);
 

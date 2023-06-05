@@ -81,6 +81,7 @@ describe('Testes da camada  controller sale', function () {
       const result = await saleService.insertSale(201);
       expect(result).to.be.deep.equal(newSale);
     });
+    
   afterEach(function () {
     sinon.restore();
   });

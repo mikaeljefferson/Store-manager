@@ -25,10 +25,18 @@ const insertProduct = async (product) => {
 
   return insertId;
 };
+const updateProduct = async (productId, product) => {
+  const columns = Object.keys((product)).map((key) => `${key} = ?`).join(', ');
 
+  const upProduct = `UPDATE StoreManager.products SET ${columns} WHERE id = ?`;
+  const result = await connection.execute(upProduct, [...Object.values(product), productId]);
+
+  return result;
+};
 module.exports = {
   findAll,
   findById,
   insertProduct,
+  updateProduct,
   
 };

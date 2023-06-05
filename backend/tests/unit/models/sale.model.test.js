@@ -21,6 +21,13 @@ describe('Testes da camada sale model', function () {
 
     expect(result).to.deep.equal(saleById);
   });
+  it('Recupera itens da lista de vendas por ID', async function () {
+    sinon.stub(connection, 'execute').resolves([saleById]);
+
+    const result = await saleModel.findById(1);
+
+    expect(result).to.deep.equal(saleById);
+  });
   
   afterEach(function () {
     sinon.restore();

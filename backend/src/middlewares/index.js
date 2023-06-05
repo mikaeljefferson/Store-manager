@@ -4,4 +4,5 @@ const validateNewSale = require('./validateNewSale');
 module.exports = {
   validateNewProduct,
   validateNewSale,
+  
 };
