@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { productController } = require('../../../src/controllers');
 const { productService } = require('../../../src/services');
-const { products, newProduct } = require('./Mock/product.contoller.mock');
+const { products, newProduct, updateProduct } = require('./Mock/product.contoller.mock');
 
 const INVALID_VALUE = 'INVALID_VALUE';
 const msg = '"name" length must be at least 5 characters long';
@@ -47,6 +47,23 @@ describe('Testa a camada controller', function () {
         expect(res.json).to.have.been.calledWith(newProduct);
       });
     });
+    it('Deve retornar um erro ao enviar um nome com menos de 5 caracteres', async function () {
+      const req = {
+        body: {
+          name: 'abcd',
+        },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'insertProduct').resolves({ type: INVALID_VALUE, message: msg });
+
+      await productController.insertProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: msg });
+    });
   });
   describe('Atualizando um produto', function () {
     it('Deve retornar um erro ao enviar um nome com menos de 5 caracteres', async function () {
@@ -68,6 +85,26 @@ describe('Testa a camada controller', function () {
 
       expect(res.status).to.have.been.calledWith(422);
       expect(res.json).to.have.been.calledWith({ message: msg });
+    });
+    it('Deve retornar o status 200 produto', async function () {
+      const req = {
+        params: {
+          id: 1,
+        },
+        body: {
+          name: 'ProductX',
+        },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'updateProduct').resolves({ type: null, message: updateProduct });
+
+      await productController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updateProduct);
     });
   });
   describe('Deletando um produto', function () {

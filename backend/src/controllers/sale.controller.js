@@ -22,8 +22,17 @@ const insertSale = async (req, res) => {
   const { type, result } = await saleService.insertSale(productSale);
     return res.status(type).json(result);
 };
+const removeSaleById = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await saleService.removeSaleById(id);
+
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
+
+  return res.status(204).json('');
+};
 module.exports = {
     findAll,
     findById, 
     insertSale,
+    removeSaleById,
   };

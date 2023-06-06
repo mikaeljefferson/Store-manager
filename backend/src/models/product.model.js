@@ -34,8 +34,8 @@ const updateProduct = async (productId, product) => {
   return result;
 };
 const deleteproduct = async (productId) => {
-  const query = 'DELETE FROM StoreManager.products WHERE id = ?';
-  const result = await connection.execute(query, [productId]);
+  const product = 'DELETE FROM StoreManager.products WHERE id = ?';
+  const result = await connection.execute(product, [productId]);
 
   return result;
 };

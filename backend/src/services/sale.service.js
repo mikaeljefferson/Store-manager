@@ -21,8 +21,20 @@ const insertSale = async (productsale) => {
     return { type: 201, result: sale };
   }
 };
+const removeSaleById = async (saleId) => {
+  const error = schema.validateId(saleId);
+  if (error.type) return error;
+
+  const checkProductExists = await saleModel.findById(saleId);
+  if (!checkProductExists[0]) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+
+  await saleModel.removeSaleById(saleId);
+
+  return { type: null, message: '' };
+};
 module.exports = {
     findAll,
     findById,
     insertSale,
+    removeSaleById,
   };

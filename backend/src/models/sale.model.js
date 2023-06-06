@@ -38,9 +38,21 @@ const insertSale = async (productSale) => {
     itemsSold: productSale,
   };
 };
+const removeSaleById = async (saleId) => {
+  const sale = `DELETE StoreManager.sales, StoreManager.sales_products
+  FROM StoreManager.sales
+  JOIN StoreManager.sales_products
+  ON StoreManager.sales.id = StoreManager.sales_products.sale_id
+  WHERE StoreManager.sales.id = ?`;
+
+  const result = await connection.execute(sale, [saleId]);
+
+  return result;
+};
 
 module.exports = {
   findAll,
   findById,
   insertSale,
+  removeSaleById,
 };

@@ -1,6 +1,5 @@
 const chai = require('chai');
 const sinon = require('sinon');
-
 const validations = require('../../../src/middlewares');
 
 const { expect } = chai;
@@ -34,4 +33,9 @@ describe('Testa as validações', function () {
       message: '"name" length must be at least 5 characters long',
     });
   });
-});
+  it('testa productId', function () {
+    req.body = [{}];
+    validations.validateNewSale(req, res, next);
+    expect(res.status).to.have.been.calledWith(400);
+    });
+  }); 

@@ -30,8 +30,20 @@ const sales = [
       quantity: 2,
     },
   ];
-  
+  const newSaleProducts = [
+    {
+      fieldCount: 0,
+      affectedRows: 2,
+      insertId: 0,
+      info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+      serverStatus: 2,
+      warningStatus: 0,
+      changedRows: 2,
+    },
+    undefined,
+  ];
   module.exports = {
     sales,
     saleById,
+    newSaleProducts,
   };
